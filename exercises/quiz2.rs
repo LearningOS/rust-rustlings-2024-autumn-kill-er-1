@@ -20,8 +20,6 @@
 //
 // No hints this time!
 
-// I AM NOT DONE
-
 pub enum Command {
     Uppercase,
     Trim,
@@ -31,21 +29,33 @@ pub enum Command {
 mod my_module {
     use super::Command;
 
-    // TODO: Complete the function signature!
-    pub fn transformer(input: ???) -> ??? {
-        // TODO: Complete the output declaration!
-        let mut output: ??? = vec![];
+    // 修复函数签名: 输入为 Vec<(String, Command)>，输出为 Vec<String>
+    pub fn transformer(input: Vec<(String, Command)>) -> Vec<String> {
+        let mut output: Vec<String> = vec![];
+
         for (string, command) in input.iter() {
-            // TODO: Complete the function body. You can do it!
+            let result = match command {
+                Command::Uppercase => string.to_uppercase(),  // 转换为大写
+                Command::Trim => string.trim().to_string(),   // 去除两端空白并返回新字符串
+                Command::Append(times) => {
+                    let mut s = string.clone();              // 克隆原字符串
+                    for _ in 0..*times {
+                        s.push_str("bar");                  // 追加 "bar"
+                    }
+                    s
+                }
+            };
+            output.push(result);  // 将结果添加到输出向量中
         }
+
         output
     }
 }
 
 #[cfg(test)]
 mod tests {
-    // TODO: What do we need to import to have `transformer` in scope?
-    use ???;
+    // 导入 `transformer` 函数
+    use super::my_module::transformer;
     use super::Command;
 
     #[test]
